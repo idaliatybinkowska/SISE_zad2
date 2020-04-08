@@ -7,6 +7,14 @@
     <groupId>com.itdp</groupId>
     <artifactId>zad2</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <!-- dependency used for XLSX file format -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+    </dependencies>
 
 
 </project>
