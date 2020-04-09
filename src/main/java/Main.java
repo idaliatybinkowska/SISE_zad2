@@ -9,6 +9,7 @@ public class Main {
         integerList.add(4);
         integerList.add(2);
         MLP mlp = new MLP(integerList);
+        mlp.goThroughNet(1.0, 2.0);
         try {
             List<Lap> lapList = new ArrayList<>();
             for (int i = 1; i < 13; i++) {
