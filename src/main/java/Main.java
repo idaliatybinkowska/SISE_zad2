@@ -4,14 +4,17 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         List<Integer> integerList = new ArrayList<>();
-        integerList.add(2);
-        integerList.add(4);
-        integerList.add(2);
+        integerList.add(2);integerList.add(4);integerList.add(2);
+
+        List<Double> desiredValues = new ArrayList<>();
+        desiredValues.add(1.1);desiredValues.add(2.1);
+
+        List<Double> inputValues = new ArrayList<>();
+        inputValues.add(1.0);inputValues.add(2.0);
+
         MLP mlp = new MLP(integerList);
-        List<Double> nic = new ArrayList<>();
-        nic.add(1.1);
-        nic.add(2.1);
-         mlp.backpropagation(mlp.goThroughNet(1.0, 2.0),nic,1.0,2.0);
+        mlp.makeStep(inputValues,desiredValues);
+        //mlp.backpropagation(mlp.goThroughNet(inputValues),desiredValues);
 //        List<Lap> lapList = new ArrayList<>();
 //        try {
 //
@@ -24,11 +27,8 @@ public class Main {
 //        }
 //        for (Lap lap : lapList) {
 //            for (Record record : lap.getRecordList()) {
-//
-//                mlp.backpropagation(
-//                        mlp.goThroughNet(record.getMeasurement_x(), record.getMeasurement_y()),
-//                        new ArrayList<>(Arrays.asList(record.getReference_x(), record.getReference_y())),
-//                        record.getMeasurement_x(), record.getMeasurement_y());
+//                mlp.makeStep(record.getMeasurement_xy(),record.reference_xy);
+//                //mlp.backpropagation(mlp.goThroughNet(record.getMeasurement_xy()),record.reference_xy);
 //            }
 //        }
         System.out.println("koniec");

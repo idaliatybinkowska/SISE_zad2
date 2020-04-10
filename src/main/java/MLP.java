@@ -3,6 +3,7 @@ import java.util.List;
 
 public class MLP {
     private List<Layer> layerList;
+    private List<Double> inputValues;
 
     public MLP(List<Integer> structure) {
         layerList = new ArrayList<>();
@@ -18,44 +19,63 @@ public class MLP {
         return layerList;
     }
 
-    public List<Double> goThroughNet(double x, double y) {
-        List<Double> inputValues = new ArrayList<>();
-        inputValues.add(x);
-        inputValues.add(y);
+    public void makeStep(List<Double> inputValues, List<Double> desiredValues){
+        List<Double> outputValues = goThroughNet(inputValues);
+        backpropagation(outputValues, desiredValues);
+    }
+
+    private List<Double> goThroughNet(List<Double> inputValues) {
+        this.inputValues = inputValues;
 
         List<Double> calculatedPreviousLayer = layerList.get(0).calculateFunctionsForNeurons(inputValues);
         for (int m = 1; m < layerList.size(); m++) {
             calculatedPreviousLayer = layerList.get(m).calculateFunctionsForNeurons(calculatedPreviousLayer);
         }
         //System.out.println(calculatedPreviousLayer.size());
-        System.out.println("X in: "+x+", y in: "+y);
+        System.out.println("X in: "+inputValues.get(0)+", y in: "+inputValues.get(1));
         System.out.println("X out: "+calculatedPreviousLayer.get(0)+", y in: "+calculatedPreviousLayer.get(1));
         System.out.println("-------------------------");
         return calculatedPreviousLayer;
     }
 
-    public void backpropagation(List<Double> outputValues, List<Double> desiredValues, double x, double y) {
-        List<Double> outputErrors = new ArrayList<>();
-        outputErrors = layerList.get(layerList.size() - 1).calculateErrorsForNeurons(outputValues, desiredValues);
-        for (int i = layerList.size() - 2; i >= 0; i--) {
-            outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors,layerList.get(i+1));
-        }
+    private void backpropagation(List<Double> outputValues, List<Double> desiredValues) {
+//        List<Double> outputErrors = new ArrayList<>();
+//        outputErrors = layerList.get(layerList.size() - 1).calculateErrorsForNeurons(outputValues, desiredValues);
+//        for (int i = layerList.size() - 2; i >= 0; i--) {
+//            outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors,layerList.get(i+1));
+//        }
+
 //        for (Layer l: layerList) {
 //            System.out.println(l.getErrorsValuesList().size());
 //        }
-
-        List<Double>  calculatedfunctionsValuesFromPreviousLayer = new ArrayList<>();
-        calculatedfunctionsValuesFromPreviousLayer.add(x);
-        calculatedfunctionsValuesFromPreviousLayer.add(y);
-
-        layerList.get(0).updateWagesForNeurons(calculatedfunctionsValuesFromPreviousLayer);
-        for (int i = 1; i <layerList.size() ; i++) {
-            layerList.get(i).updateWagesForNeurons(layerList.get(i-1).getFunctionsValuesList());
-        }
+        calculateAllErrors(outputValues,desiredValues);
+        updateAllWages();
+//        List<Double> calculatedfunctionsValuesFromPreviousLayer = new ArrayList<>();
+//        calculatedfunctionsValuesFromPreviousLayer.add(inputValues.get(0));
+//        calculatedfunctionsValuesFromPreviousLayer.add(inputValues.get(1));
+//
+//        layerList.get(0).updateWagesForNeurons(calculatedfunctionsValuesFromPreviousLayer);
+//        for (int i = 1; i <layerList.size() ; i++) {
+//            layerList.get(i).updateWagesForNeurons(layerList.get(i-1).getFunctionsValuesList());
+//        }
 
     }
 
+    private void calculateAllErrors(List<Double> outputValues, List<Double> desiredValues){
+        List<Double> outputErrors = layerList.get(layerList.size() - 1).calculateErrorsForNeurons(outputValues, desiredValues);
+        for (int i = layerList.size() - 2; i >= 0; i--) {
+            outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors,layerList.get(i+1));
+        }
+    }
 
+    private void updateAllWages(){
+        List<Double> calculatedFunctionsValuesFromPreviousLayer = new ArrayList<>();
+        calculatedFunctionsValuesFromPreviousLayer.add(inputValues.get(0));
+        calculatedFunctionsValuesFromPreviousLayer.add(inputValues.get(1));
 
-
+        layerList.get(0).updateWagesForNeurons(calculatedFunctionsValuesFromPreviousLayer);
+        for (int i = 1; i <layerList.size() ; i++) {
+            layerList.get(i).updateWagesForNeurons(layerList.get(i-1).getFunctionsValuesList());
+        }
+    }
 }
