@@ -22,6 +22,7 @@ public class MLP {
         List<Double> inputValues = new ArrayList<>();
         inputValues.add(x);
         inputValues.add(y);
+
         List<Double> calculatedPreviousLayer = layerList.get(0).calculateFunctionsForNeurons(inputValues);
         for (int m = 1; m < layerList.size(); m++) {
             calculatedPreviousLayer = layerList.get(m).calculateFunctionsForNeurons(calculatedPreviousLayer);
@@ -30,14 +31,14 @@ public class MLP {
     }
 
     public void backpropagation(List<Double> outputValues, List<Double> desiredValues) {
-        List<Double> outputErrors  = new ArrayList<>();
-        for (int i = 0; i < outputValues.size() ; i++) {
-            outputErrors.add(desiredValues.get(i) - outputValues.get(i));
-        }
-        for (int i = layerList.size()-2; i >= 0 ; i--) {
+        List<Double> outputErrors = new ArrayList<>();
+        outputErrors = layerList.get(layerList.size() - 1).calculateErrorsForNeurons(outputValues, desiredValues);
+        for (int i = layerList.size() - 2; i >= 0; i--) {
             outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors);
         }
-
+        for (Layer l: layerList) {
+            System.out.println(l.getErrorsValuesList().size());
+        }
     }
 
 
