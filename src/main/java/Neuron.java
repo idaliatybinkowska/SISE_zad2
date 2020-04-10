@@ -21,7 +21,8 @@ public class Neuron {
 
     private void initializeWages(int numberOfWages) {
         for (int i = 0; i < numberOfWages; i++) {
-            wages.add(Math.random());
+            //wages.add(Math.random());
+            wages.add((double)i+1);
         }
     }
 
@@ -38,18 +39,18 @@ public class Neuron {
         for (int i = 0; i < wages.size(); i++) {
             activationFunctionValue += wages.get(i) * calculatedValues.get(i);
         }
-        activationFunctionValue = 1.0/(1.0+Math.exp(-activationFunctionValue));
+        //activationFunctionValue = 1.0/(1.0+Math.exp(-activationFunctionValue));
     }
 
-    public void calculateError(List<Double> calculatedValues) {
-        for (int i = 0; i < wages.size(); i++) {
-            error += wages.get(i) * calculatedValues.get(i);
+    public void calculateError(List<Double> calculatedValues,List<Double> wagesFromNextLayer) {
+        for (int i = 0; i < wagesFromNextLayer.size(); i++) {
+            error += wagesFromNextLayer.get(i) * calculatedValues.get(i);
         }
     }
 
     public void updateWages(List<Double> inputValues) {
         for (int i = 0; i < wages.size(); i++) {
-            wages.set(i,wages.get(i)+error*activationFunctionValue*(activationFunctionValue-1)*inputValues.get(i));
+            wages.set(i,wages.get(i)+0.2*error*inputValues.get(i));
         }
 
     }

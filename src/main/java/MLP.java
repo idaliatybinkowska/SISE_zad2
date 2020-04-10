@@ -38,7 +38,7 @@ public class MLP {
         List<Double> outputErrors = new ArrayList<>();
         outputErrors = layerList.get(layerList.size() - 1).calculateErrorsForNeurons(outputValues, desiredValues);
         for (int i = layerList.size() - 2; i >= 0; i--) {
-            outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors);
+            outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors,layerList.get(i+1));
         }
 //        for (Layer l: layerList) {
 //            System.out.println(l.getErrorsValuesList().size());
@@ -49,7 +49,7 @@ public class MLP {
         calculatedfunctionsValuesFromPreviousLayer.add(y);
 
         layerList.get(0).updateWagesForNeurons(calculatedfunctionsValuesFromPreviousLayer);
-        for (int i = 1; i <layerList.size()-1 ; i++) {
+        for (int i = 1; i <layerList.size() ; i++) {
             layerList.get(i).updateWagesForNeurons(layerList.get(i-1).getFunctionsValuesList());
         }
 

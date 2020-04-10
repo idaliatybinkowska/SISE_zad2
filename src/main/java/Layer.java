@@ -47,12 +47,13 @@ public class Layer {
         return functionsValuesList;
     }
 
-    public List<Double> calculateErrorsForNeurons(List<Double> calculatedErrorsFromPreviousLayer) {
+    public List<Double> calculateErrorsForNeurons(List<Double> calculatedErrorsFromPreviousLayer, Layer nextLayer) {
         //List<Double> currentValues = new ArrayList<>();
         errorsValuesList = new ArrayList<>();
-        for (Neuron neuron: neuronList) {
-            neuron.calculateError(calculatedErrorsFromPreviousLayer);
-            errorsValuesList.add(neuron.getError());
+        //for (Neuron neuron: neuronList) {
+        for (int i = 0; i < neuronList.size(); i++) {
+            neuronList.get(i).calculateError(calculatedErrorsFromPreviousLayer,this.getWagesPackage(nextLayer,i));
+            errorsValuesList.add(neuronList.get(i).getError());
         }
         return errorsValuesList;
     }
@@ -69,6 +70,15 @@ public class Layer {
         for (Neuron neuron: neuronList) {
             neuron.updateWages(calculatedfunctionsValuesFromPreviousLayer);
         }
+    }
+
+    public List<Double> getWagesPackage(Layer nextLayer,int position) {
+
+        List<Double> wagesList = new ArrayList<>();
+        for (Neuron neuron : nextLayer.getNeuronList()) {
+            wagesList.add(neuron.getWages().get(position));
+        }
+        return wagesList;
     }
 
 
