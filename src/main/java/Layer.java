@@ -8,8 +8,8 @@ public class Layer {
 
     public Layer() {
         this.neuronList = new ArrayList<>();
-        this.functionsValuesList = new ArrayList<>();
-        this.errorsValuesList = new ArrayList<>();
+//        this.functionsValuesList = new ArrayList<>();
+//        this.errorsValuesList = new ArrayList<>();
     }
 
     public List<Double> getFunctionsValuesList() {
@@ -39,6 +39,7 @@ public class Layer {
 
     public List<Double> calculateFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
         //List<Double> currentValues = new ArrayList<>();
+        functionsValuesList = new ArrayList<>();
         for (Neuron neuron: neuronList) {
             neuron.calculateActivationFunction(calculatedValuesFromPreviousLayer);
             functionsValuesList.add(neuron.getActivationFunctionValue());
@@ -48,6 +49,7 @@ public class Layer {
 
     public List<Double> calculateErrorsForNeurons(List<Double> calculatedErrorsFromPreviousLayer) {
         //List<Double> currentValues = new ArrayList<>();
+        errorsValuesList = new ArrayList<>();
         for (Neuron neuron: neuronList) {
             neuron.calculateError(calculatedErrorsFromPreviousLayer);
             errorsValuesList.add(neuron.getError());
@@ -56,9 +58,20 @@ public class Layer {
     }
 
     public List<Double> calculateErrorsForNeurons(List<Double> outputValues, List<Double> desiredValues) {
+        errorsValuesList = new ArrayList<>();
         for (int i = 0; i < outputValues.size() ; i++) {
             errorsValuesList.add(desiredValues.get(i) - outputValues.get(i));
         }
         return errorsValuesList;
     }
+
+    public void updateWagesForNeurons(List<Double> calculatedfunctionsValuesFromPreviousLayer) {
+        for (Neuron neuron: neuronList) {
+            neuron.updateWages(calculatedfunctionsValuesFromPreviousLayer);
+        }
+    }
+
+
+
+
 }

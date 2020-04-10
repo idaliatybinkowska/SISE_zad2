@@ -47,6 +47,13 @@ public class Neuron {
         }
     }
 
+    public void updateWages(List<Double> inputValues) {
+        for (int i = 0; i < wages.size(); i++) {
+            wages.set(i,wages.get(i)+error*activationFunctionValue*(activationFunctionValue-1)*inputValues.get(i));
+        }
+
+    }
+
 
 
     public List<Double> getWages() {
