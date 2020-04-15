@@ -23,7 +23,7 @@ public class Neuron {
 
     private void initializeWages(int numberOfWages) {
         for (int i = 0; i < numberOfWages; i++) {
-            wages.add(Math.random()*6000);
+            wages.add(Math.random());
             //wages.add((double)i+1);
         }
     }
@@ -37,13 +37,22 @@ public class Neuron {
 //        return activationFunctionValue;
 //    }
 
-    public void calculateActivationFunction(List<Double> calculatedValues) {
+    public void calculateSigmoidalActivationFunction(List<Double> calculatedValues) {
         activationFunctionValue = 0;
         for (int i = 0; i < wages.size(); i++) {
             activationFunctionValue += wages.get(i) * calculatedValues.get(i);
         }
-        activationFunctionValue += activationFunctionValue + 1.0; //bias
+        activationFunctionValue += 1.0; //bias
         activationFunctionValue = 1.0/(1.0+Math.exp(-activationFunctionValue));
+    }
+
+    public void calculateLinearActivationFunction(List<Double> calculatedValues) {
+        activationFunctionValue = 0;
+        for (int i = 0; i < wages.size(); i++) {
+            activationFunctionValue += wages.get(i) * calculatedValues.get(i);
+        }
+        activationFunctionValue += 1.0; //bias
+
     }
 
     public void calculateError(List<Double> calculatedValues,List<Double> wagesFromNextLayer) {

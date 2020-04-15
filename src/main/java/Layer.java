@@ -37,11 +37,21 @@ public class Layer {
 //        return currentValues;
 //    }
 
-    public List<Double> calculateFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
+    public List<Double> calculateSigmoidalFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
         //List<Double> currentValues = new ArrayList<>();
         functionsValuesList = new ArrayList<>();
         for (Neuron neuron: neuronList) {
-            neuron.calculateActivationFunction(calculatedValuesFromPreviousLayer);
+            neuron.calculateSigmoidalActivationFunction(calculatedValuesFromPreviousLayer);
+            functionsValuesList.add(neuron.getActivationFunctionValue());
+        }
+        return functionsValuesList;
+    }
+
+    public List<Double> calculateLinearFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
+        //List<Double> currentValues = new ArrayList<>();
+        functionsValuesList = new ArrayList<>();
+        for (Neuron neuron: neuronList) {
+            neuron.calculateLinearActivationFunction(calculatedValuesFromPreviousLayer);
             functionsValuesList.add(neuron.getActivationFunctionValue());
         }
         return functionsValuesList;
@@ -61,6 +71,7 @@ public class Layer {
     public List<Double> calculateErrorsForNeurons(List<Double> outputValues, List<Double> desiredValues) {
         errorsValuesList = new ArrayList<>();
         for (int i = 0; i < outputValues.size() ; i++) {
+            neuronList.get(i).setError(desiredValues.get(i)-outputValues.get(i));
             errorsValuesList.add(desiredValues.get(i) - outputValues.get(i));
         }
         return errorsValuesList;
