@@ -46,25 +46,14 @@ public class Layer {
         }
         return functionsValuesList;
     }
-//zmiana
-//    public List<Double> calculateErrorsForNeurons(List<Double> calculatedErrorsFromPreviousLayer, Layer nextLayer) {
-//        //List<Double> currentValues = new ArrayList<>();
-//        errorsValuesList = new ArrayList<>();
-//        //for (Neuron neuron: neuronList) {
-//        for (int i = 0; i < neuronList.size(); i++) {
-//            neuronList.get(i).calculateError(calculatedErrorsFromPreviousLayer,this.getWagesPackage(nextLayer,i));
-//            errorsValuesList.add(neuronList.get(i).getError());
-//        }
-//        return errorsValuesList;
-//    }
 
-    public List<Double> calculateErrorsForNeurons(List<Double> calculatedErrorsFromPreviousLayer) {
+    public List<Double> calculateErrorsForNeurons(List<Double> calculatedErrorsFromPreviousLayer, Layer nextLayer) {
         //List<Double> currentValues = new ArrayList<>();
         errorsValuesList = new ArrayList<>();
         //for (Neuron neuron: neuronList) {
-        for (Neuron neuron : neuronList) {
-            neuron.calculateError(calculatedErrorsFromPreviousLayer);
-            errorsValuesList.add(neuron.getError());
+        for (int i = 0; i < neuronList.size(); i++) {
+            neuronList.get(i).calculateError(calculatedErrorsFromPreviousLayer,this.getWagesPackage(nextLayer,i));
+            errorsValuesList.add(neuronList.get(i).getError());
         }
         return errorsValuesList;
     }
@@ -87,18 +76,9 @@ public class Layer {
 
         List<Double> wagesList = new ArrayList<>();
         for (Neuron neuron : nextLayer.getNeuronList()) {
-            wagesList.add(neuron.getWagesIn().get(position));
+            wagesList.add(neuron.getWages().get(position));
         }
         return wagesList;
-    }
-//zmiana
-    public void initWagesOut(Layer nextLayer) {
-        for (int i = 0; i < neuronList.size(); i++) {
-            for (Neuron neuron : nextLayer.getNeuronList()) {
-                neuronList.get(i).getWagesOut().add(neuron.getWagesIn().get(i));
-            }
-        }
-        //return wagesList;
     }
 
 

@@ -12,10 +12,7 @@ public class MLP {
             for (int j = 0; j < structure.get(i); j++)
                 layerList.get(i - 1).addNeuron(new Neuron(structure.get(i - 1)));
         }
-        //zmiania
-        for (int i = layerList.size() - 2; i >= 0; i--) {
-            layerList.get(i).initWagesOut(layerList.get(i+1));
-        }
+
     }
 
     public List<Layer> getLayerList() {
@@ -67,10 +64,7 @@ public class MLP {
     private void calculateAllErrors(List<Double> outputValues, List<Double> desiredValues){
         List<Double> outputErrors = layerList.get(layerList.size() - 1).calculateErrorsForNeurons(outputValues, desiredValues);
         for (int i = layerList.size() - 2; i >= 0; i--) {
-            //zmina
-            outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors);
-            int x=1;
-//            outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors,layerList.get(i+1));
+            outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors,layerList.get(i+1));
         }
     }
 
