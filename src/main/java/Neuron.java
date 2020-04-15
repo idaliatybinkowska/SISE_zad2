@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Neuron {
     private List<Double> wages;
-    private double activationFunctionValue = 0;
-    private double error = 0;
+    private double activationFunctionValue;
+    private double error;
 
     public Neuron() {
         this.wages = new ArrayList<>();
@@ -13,6 +13,8 @@ public class Neuron {
     public Neuron(int numberOfWages) {
         wages = new ArrayList<>();
         initializeWages(numberOfWages);
+        this.activationFunctionValue = 0;
+        this.error = 0;
     }
 
     public double getActivationFunctionValue() {
@@ -21,8 +23,8 @@ public class Neuron {
 
     private void initializeWages(int numberOfWages) {
         for (int i = 0; i < numberOfWages; i++) {
-            //wages.add(Math.random());
-            wages.add((double)i+1);
+            wages.add(Math.random()*6000);
+            //wages.add((double)i+1);
         }
     }
 
@@ -36,13 +38,16 @@ public class Neuron {
 //    }
 
     public void calculateActivationFunction(List<Double> calculatedValues) {
+        activationFunctionValue = 0;
         for (int i = 0; i < wages.size(); i++) {
             activationFunctionValue += wages.get(i) * calculatedValues.get(i);
         }
-        //activationFunctionValue = 1.0/(1.0+Math.exp(-activationFunctionValue));
+        activationFunctionValue += activationFunctionValue + 1.0; //bias
+        activationFunctionValue = 1.0/(1.0+Math.exp(-activationFunctionValue));
     }
 
     public void calculateError(List<Double> calculatedValues,List<Double> wagesFromNextLayer) {
+        error = 0;
         for (int i = 0; i < wagesFromNextLayer.size(); i++) {
             error += wagesFromNextLayer.get(i) * calculatedValues.get(i);
         }
