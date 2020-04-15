@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Record {
     private int no;
-    List<Double> measurement_xy;
-    List<Double> reference_xy;
+    private List<Double> measurement_xy;
+    private List<Double> reference_xy;
 //    private double measurement_x;
 //    private double measurement_y;
 //    private double reference_x;
