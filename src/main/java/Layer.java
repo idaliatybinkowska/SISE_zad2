@@ -37,11 +37,11 @@ public class Layer {
 //        return currentValues;
 //    }
 
-    public List<Double> calculateSigmoidalFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
+    public List<Double> calculateGaussFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
         //List<Double> currentValues = new ArrayList<>();
         functionsValuesList = new ArrayList<>();
         for (Neuron neuron: neuronList) {
-            neuron.calculateSigmoidalActivationFunction(calculatedValuesFromPreviousLayer);
+            neuron.calculateGaussActivationFunction(calculatedValuesFromPreviousLayer);
             functionsValuesList.add(neuron.getActivationFunctionValue());
         }
         return functionsValuesList;
