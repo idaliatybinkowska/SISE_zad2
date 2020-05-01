@@ -13,13 +13,13 @@ public class Main {
         integerList.add(8);
         integerList.add(2);
 
-        List<Double> desiredValues = new ArrayList<>();
-        desiredValues.add(1.1);
-        desiredValues.add(2.1);
-
-        List<Double> inputValues = new ArrayList<>();
-        inputValues.add(1.0);
-        inputValues.add(2.0);
+//        List<Double> desiredValues = new ArrayList<>();
+//        desiredValues.add(1.1);
+//        desiredValues.add(2.1);
+//
+//        List<Double> inputValues = new ArrayList<>();
+//        inputValues.add(1.0);
+//        inputValues.add(2.0);
 
         List<Record> setOfWagesForNeurons = null;
         try {
@@ -42,7 +42,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < 1000 ; i++) {
+        for (int i = 0; i < 5 ; i++) {
             for (Lap lap : lapList) {
                 for (Record record : lap.getRecordList()) {
 
@@ -59,6 +59,34 @@ public class Main {
 
             mlp.setMSE(0.0);
         }
+
+        // TERAZ PRZEJAZD WERYFIKUJACY !!
+        //List<Lap> testList = new ArrayList<>();
+        Lap testLap = null;
+        try {
+                testLap = new Lap(XLSXReader.readXLSX("pozyxAPI_dane_pomiarowe/dane_testowe.xlsx"));
+                //testList.add(new Lap(XLSXReader.readXLSX("dane_testowe.xlsx")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<Double> results = new ArrayList<>();
+        for (Record record : testLap.getRecordList()) {
+
+            List<Double> outputValues =  mlp.goThroughNet(record.getMeasurement_xy());
+            results.add(outputValues.get(0));
+            results.add(outputValues.get(1));
+        }
+        for (Double d: results) {
+            System.out.println("Results: "+d);
+        }
+
+        try {
+            XLSXReader.writeToXLSX("pozyxAPI_dane_pomiarowe/dane_testowe.xlsx",results);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

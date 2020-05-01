@@ -48,7 +48,7 @@ public class MLP {
         //System.out.println(MSE);
     }
 
-    private List<Double> goThroughNet(List<Double> inputValues) {
+    public List<Double> goThroughNet(List<Double> inputValues) {
         this.inputValues = inputValues;
 
         List<Double> calculatedPreviousLayer = layerList.get(0).calculateGaussFunctionsForNeurons(inputValues);

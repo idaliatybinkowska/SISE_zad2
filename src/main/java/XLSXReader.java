@@ -4,6 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,6 +14,7 @@ public class XLSXReader {
 
 
     public static List<Record> readXLSX(String fileName) throws IOException {
+        int counter = 0;
         List<Record> recordList = new ArrayList<Record>();
         File excelFile = new File(fileName);
         FileInputStream fis = new FileInputStream(excelFile);
@@ -26,7 +28,8 @@ public class XLSXReader {
         Iterator<Row> rowIt = sheet.iterator();
         Row row = rowIt.next();
 
-        while (rowIt.hasNext()) {
+        //while (rowIt.hasNext()) {
+        for (int i = 0; i < 1540; i++) {
             row = rowIt.next();
             // iterate on cells for the current row
             //Iterator<Cell> cellIterator = row.cellIterator();
@@ -37,11 +40,37 @@ public class XLSXReader {
                     row.getCell(6).getNumericCellValue(),
                     row.getCell(7).getNumericCellValue()
             ));
+            ++counter;
+            //System.out.println(counter);
         }
         workbook.close();
         fis.close();
         return recordList;
     }
+
+    public static void writeToXLSX(String fileName, List<Double> results) throws IOException {
+        File excelFile = new File(fileName);
+        FileInputStream fis = new FileInputStream(excelFile);
+
+        // we create an XSSF Workbook object for our XLSX Excel File
+        XSSFWorkbook workbook = new XSSFWorkbook(fis);
+        // we get first sheet
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        Iterator<Row> rowIt = sheet.iterator();
+        Row row = rowIt.next();
+        for (int i = 0; i < 3080; i = i + 2) {
+            row = rowIt.next();
+            row.createCell(13).setCellValue(results.get(i));
+            row.createCell(14).setCellValue(results.get(i + 1));
+        }
+        fis.close();
+        FileOutputStream outputStream = new FileOutputStream(fileName);
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
+
+
 }
 
 
