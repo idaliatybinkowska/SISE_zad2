@@ -17,37 +17,28 @@ public class Neuron {
         this.error = 0;
     }
 
-    public Neuron(int numberOfWages,List<Record> setOfWagesForNeuron) {
-        wages = new ArrayList<>();
-        initializeWages(numberOfWages, setOfWagesForNeuron);
-        this.activationFunctionValue = 0;
-        this.error = 0;
-    }
+//    public Neuron(int numberOfWages,List<Record> setOfWagesForNeuron) {
+//        wages = new ArrayList<>();
+//        initializeWages(numberOfWages, setOfWagesForNeuron);
+//        this.activationFunctionValue = 0;
+//        this.error = 0;
+//    }
 
     public double getActivationFunctionValue() {
         return activationFunctionValue;
     }
 
+
 //    private void initializeWages(int numberOfWages,List<Record> setOfWagesForNeurons) {
-//        for (int i = 0; i < numberOfWages; i++) {
-//            //wages.add(Math.random()*6000);
-//            int randomNumber = (int)(Math.random()*1540);
-//            wages.add(setOfWagesForNeurons.get(randomNumber).getMeasurement_xy().get(0));
-//            wages.add(setOfWagesForNeurons.get(randomNumber).getMeasurement_xy().get(1));
-//            //wages.add((double)i+1);
-//        }
+//        //wages.add(Math.random());
+//        int randomNumber = (int)(Math.random()*1540);
+//        wages.add(setOfWagesForNeurons.get(randomNumber).getMeasurement_xy().get(0));
+//        wages.add(setOfWagesForNeurons.get(randomNumber).getMeasurement_xy().get(1));
+//        //wages.add((double)i+1);
 //    }
 
-    private void initializeWages(int numberOfWages,List<Record> setOfWagesForNeurons) {
-        //wages.add(Math.random());
-        int randomNumber = (int)(Math.random()*1540);
-        wages.add(setOfWagesForNeurons.get(randomNumber).getMeasurement_xy().get(0));
-        wages.add(setOfWagesForNeurons.get(randomNumber).getMeasurement_xy().get(1));
-        //wages.add((double)i+1);
-    }
-
     private void initializeWages(int numberOfWages) {
-        for (int i = 0; i < numberOfWages; i++) {
+        for (int i = 0; i < numberOfWages+1; i++) {
             wages.add(Math.random());
         }
     }
@@ -61,12 +52,12 @@ public class Neuron {
 //        return activationFunctionValue;
 //    }
 
-    public void calculateGaussActivationFunction(List<Double> calculatedValues) {
+    public void calculateSigmoidalActivationFunction(List<Double> calculatedValues) {
         activationFunctionValue = 0;
-        for (int i = 0; i < wages.size(); i++) {
+        for (int i = 0; i < wages.size()-1; i++) {
             activationFunctionValue += wages.get(i) * calculatedValues.get(i);
         }
-        //activationFunctionValue += 1.0; //bias
+        activationFunctionValue += wages.get(wages.size()-1); //bias
         activationFunctionValue = 1.0/(1.0+Math.exp(-activationFunctionValue));
     }
 //    public void calculateGaussActivationFunction(List<Double> calculatedValues) {
@@ -82,11 +73,10 @@ public class Neuron {
 
     public void calculateLinearActivationFunction(List<Double> calculatedValues) {
         activationFunctionValue = 0;
-        for (int i = 0; i < wages.size(); i++) {
+        for (int i = 0; i < wages.size()-1; i++) {
             activationFunctionValue += wages.get(i) * calculatedValues.get(i);
         }
-        activationFunctionValue += 1.0; //bias
-
+        activationFunctionValue +=  wages.get(wages.size()-1); //bias
     }
 
     public void calculateError(List<Double> calculatedValues,List<Double> wagesFromNextLayer) {
@@ -97,13 +87,13 @@ public class Neuron {
     }
 
     public void updateWages(List<Double> inputValues) {
-        for (int i = 0; i < wages.size(); i++) {
+        for (int i = 0; i < wages.size()-1; i++) {
             wages.set(i,wages.get(i)+0.2*error*inputValues.get(i));
         }
+        wages.set(wages.size()-1,wages.get(wages.size()-1)+0.2*error*1); //bias
+
 
     }
-
-
 
     public List<Double> getWages() {
         return wages;
