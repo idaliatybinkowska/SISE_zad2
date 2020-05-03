@@ -8,8 +8,6 @@ public class Layer {
 
     public Layer() {
         this.neuronList = new ArrayList<>();
-//        this.functionsValuesList = new ArrayList<>();
-//        this.errorsValuesList = new ArrayList<>();
     }
 
     public List<Double> getFunctionsValuesList() {
@@ -22,20 +20,12 @@ public class Layer {
 
     public boolean addNeuron(Neuron neuron) {
         return neuronList.add(neuron);
-
     }
 
     public List<Neuron> getNeuronList() {
         return neuronList;
     }
 
-//    public List<Double> calculateFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
-//        List<Double> currentValues = new ArrayList<>();
-//        for (Neuron neuron: neuronList) {
-//            currentValues.add(neuron.calculateActivationFunction(calculatedValuesFromPreviousLayer));
-//        }
-//        return currentValues;
-//    }
 
     public List<Double> calculateSigmoidalFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
         //List<Double> currentValues = new ArrayList<>();
@@ -58,9 +48,7 @@ public class Layer {
     }
 
     public List<Double> calculateErrorsForNeurons(List<Double> calculatedErrorsFromPreviousLayer, Layer nextLayer) {
-        //List<Double> currentValues = new ArrayList<>();
         errorsValuesList = new ArrayList<>();
-        //for (Neuron neuron: neuronList) {
         for (int i = 0; i < neuronList.size(); i++) {
             neuronList.get(i).calculateError(calculatedErrorsFromPreviousLayer,this.getWagesPackage(nextLayer,i));
             errorsValuesList.add(neuronList.get(i).getError());
@@ -71,7 +59,7 @@ public class Layer {
     public List<Double> calculateErrorsForNeurons(List<Double> outputValues, List<Double> desiredValues) {
         errorsValuesList = new ArrayList<>();
         for (int i = 0; i < outputValues.size() ; i++) {
-            neuronList.get(i).setError(desiredValues.get(i)-outputValues.get(i));
+            neuronList.get(i).setError(desiredValues.get(i) - outputValues.get(i));
             errorsValuesList.add(desiredValues.get(i) - outputValues.get(i));
         }
         return errorsValuesList;
@@ -80,6 +68,12 @@ public class Layer {
     public void updateWagesForNeurons(List<Double> calculatedfunctionsValuesFromPreviousLayer) {
         for (Neuron neuron: neuronList) {
             neuron.updateWages(calculatedfunctionsValuesFromPreviousLayer);
+        }
+    }
+
+    public void updateWagesForNeuronsInLinearLayer(List<Double> calculatedfunctionsValuesFromPreviousLayer) {
+        for (Neuron neuron: neuronList) {
+            neuron.updateWagesForLinearLayer(calculatedfunctionsValuesFromPreviousLayer);
         }
     }
 

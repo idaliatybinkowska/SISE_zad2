@@ -49,7 +49,15 @@ public class MLP {
     }
 
     public void makeStep(List<Double> inputValues, List<Double> desiredValues){
+//        for (int i = 0; i < inputValues.size(); i++) {
+//            inputValues.set(i,inputValues.get(i)/1000.0);
+//        }
+
         List<Double> outputValues = goThroughNet(inputValues);
+//        for (int i = 0; i < outputValues.size(); i++) {
+//            outputValues.set(i,outputValues.get(i)*1000.0);
+//        }
+
         backpropagation(outputValues, desiredValues);
     }
 
@@ -80,10 +88,12 @@ public class MLP {
     private void calculateAllErrors(List<Double> outputValues, List<Double> desiredValues){
 
         List<Double> outputErrors = layerList.get(layerList.size() - 1).calculateErrorsForNeurons(outputValues, desiredValues);
+//        MSE+= sqrt(outputErrors.get(0)*outputErrors.get(0)+outputErrors.get(1)*outputErrors.get(1));
+        MSE+= 0.5*(outputErrors.get(0)*outputErrors.get(0)+outputErrors.get(1)*outputErrors.get(1));
+
         for (int i = layerList.size() - 2; i >= 0; i--) {
             outputErrors = layerList.get(i).calculateErrorsForNeurons(outputErrors,layerList.get(i+1));
         }
-        MSE+= 0.5*(outputErrors.get(0)*outputErrors.get(0)+outputErrors.get(1)*outputErrors.get(1));
         //System.out.println(MSE);
     }
 
@@ -94,8 +104,12 @@ public class MLP {
 
         layerList.get(0).updateWagesForNeurons(calculatedFunctionsValuesFromPreviousLayer);
         for (int i = 1; i < layerList.size() ; i++) {
-            layerList.get(i).updateWagesForNeurons(layerList.get(i-1).getFunctionsValuesList());
+            if(i!=layerList.size()-1)
+                layerList.get(i).updateWagesForNeurons(layerList.get(i-1).getFunctionsValuesList());
+            else
+                layerList.get(i).updateWagesForNeuronsInLinearLayer(layerList.get(i-1).getFunctionsValuesList());
         }
+
         //layerList.get(layerList.size()-1).updateWagesForNeurons(layerList.get(layerList.size()-2).getFunctionsValuesList());
     }
 }
