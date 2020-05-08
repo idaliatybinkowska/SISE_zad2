@@ -28,7 +28,6 @@ public class Layer {
 
 
     public List<Double> calculateSigmoidalFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
-        //List<Double> currentValues = new ArrayList<>();
         functionsValuesList = new ArrayList<>();
         for (Neuron neuron: neuronList) {
             neuron.calculateSigmoidalActivationFunction(calculatedValuesFromPreviousLayer);
@@ -38,7 +37,6 @@ public class Layer {
     }
 
     public List<Double> calculateLinearFunctionsForNeurons(List<Double> calculatedValuesFromPreviousLayer) {
-        //List<Double> currentValues = new ArrayList<>();
         functionsValuesList = new ArrayList<>();
         for (Neuron neuron: neuronList) {
             neuron.calculateLinearActivationFunction(calculatedValuesFromPreviousLayer);

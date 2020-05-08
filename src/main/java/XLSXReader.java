@@ -28,20 +28,19 @@ public class XLSXReader {
         Iterator<Row> rowIt = sheet.iterator();
         Row row = rowIt.next();
 
-        //while (rowIt.hasNext()) {
+
         for (int i = 0; i < 1540; i++) {
             row = rowIt.next();
-            // iterate on cells for the current row
-            //Iterator<Cell> cellIterator = row.cellIterator();
+
             recordList.add(new Record(
                     (int) row.getCell(3).getNumericCellValue(),
-                    row.getCell(4).getNumericCellValue(),
-                    row.getCell(5).getNumericCellValue(),
-                    row.getCell(6).getNumericCellValue(),
-                    row.getCell(7).getNumericCellValue()
+                    row.getCell(4).getNumericCellValue()/1000.0,
+                    row.getCell(5).getNumericCellValue()/1000.0,
+                    row.getCell(6).getNumericCellValue()/1000.0,
+                    row.getCell(7).getNumericCellValue()/1000.0
             ));
             ++counter;
-            //System.out.println(counter);
+
         }
         workbook.close();
         fis.close();

@@ -14,13 +14,6 @@ public class Main {
         integerList.add(2);
 
 
-//        List<Record> setOfWagesForNeurons = null;
-//        try {
-//            setOfWagesForNeurons = XLSXReader.readXLSX("pozyxAPI_dane_pomiarowe/pozyxAPI_only_localization_measurement1.xlsx");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         MLP mlp = new MLP(integerList);
 
         List<Lap> lapList = new ArrayList<>();
@@ -32,7 +25,7 @@ public class Main {
             e.printStackTrace();
         }
         //Uczenie
-        for (int i = 0; i < 5 ; i++) {
+        for (int i = 0; i < 100 ; i++) {
             for (Lap lap : lapList) {
                 for (Record record : lap.getRecordList()) {
                     mlp.makeStep(record.getMeasurement_xy(), record.getReference_xy());
@@ -42,12 +35,10 @@ public class Main {
             mlp.setMSE(0.0);
         }
 
-        // TERAZ PRZEJAZD WERYFIKUJACY !!
-        //List<Lap> testList = new ArrayList<>();
+
         Lap testLap = null;
         try {
                 testLap = new Lap(XLSXReader.readXLSX("pozyxAPI_dane_pomiarowe/dane_testowe.xlsx"));
-                //testList.add(new Lap(XLSXReader.readXLSX("dane_testowe.xlsx")));
         } catch (IOException e) {
             e.printStackTrace();
         }
