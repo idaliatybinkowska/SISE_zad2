@@ -16,7 +16,6 @@ public class MLP {
                 layerList.get(i - 1).addNeuron(new Neuron(structure.get(i - 1)));
             }
         }
-        System.out.println("nic");
     }
 
     public double getMSE() {
@@ -32,9 +31,7 @@ public class MLP {
     }
 
     public void makeStep(List<Double> inputValues, List<Double> desiredValues){
-
         List<Double> outputValues = goThroughNet(inputValues);
-
         backpropagation(outputValues, desiredValues);
     }
 
@@ -46,7 +43,6 @@ public class MLP {
             calculatedPreviousLayer = layerList.get(m).calculateSigmoidalFunctionsForNeurons(calculatedPreviousLayer);
         }
         calculatedPreviousLayer = layerList.get(layerList.size()-1).calculateLinearFunctionsForNeurons(calculatedPreviousLayer);
-
         return calculatedPreviousLayer;
     }
 
@@ -77,6 +73,5 @@ public class MLP {
             else
                 layerList.get(i).updateWagesForNeuronsInLinearLayer(layerList.get(i-1).getFunctionsValuesList());
         }
-
     }
 }

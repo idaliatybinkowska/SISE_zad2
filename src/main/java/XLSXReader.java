@@ -12,9 +12,7 @@ import java.util.List;
 
 public class XLSXReader {
 
-
     public static List<Record> readXLSX(String fileName) throws IOException {
-        int counter = 0;
         List<Record> recordList = new ArrayList<Record>();
         File excelFile = new File(fileName);
         FileInputStream fis = new FileInputStream(excelFile);
@@ -28,7 +26,6 @@ public class XLSXReader {
         Iterator<Row> rowIt = sheet.iterator();
         Row row = rowIt.next();
 
-
         for (int i = 0; i < 1540; i++) {
             row = rowIt.next();
 
@@ -39,8 +36,6 @@ public class XLSXReader {
                     row.getCell(6).getNumericCellValue()/1000.0,
                     row.getCell(7).getNumericCellValue()/1000.0
             ));
-            ++counter;
-
         }
         workbook.close();
         fis.close();
@@ -68,8 +63,6 @@ public class XLSXReader {
         workbook.close();
         outputStream.close();
     }
-
-
 }
 
 

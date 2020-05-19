@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Neuron {
@@ -7,8 +6,6 @@ public class Neuron {
     private List<Double> wages;
     private double activationFunctionValue;
     private double error;
-
-
 
     public Neuron() {
         this.wages = new ArrayList<>();

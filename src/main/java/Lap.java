@@ -16,10 +16,4 @@ public class Lap {
         return recordList;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Lap{" +
-//                "recordList=" + recordList +
-//                '}';
-//    }
 }

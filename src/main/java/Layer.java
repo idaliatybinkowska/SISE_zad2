@@ -83,8 +83,4 @@ public class Layer {
         }
         return wagesList;
     }
-
-
-
-
 }
